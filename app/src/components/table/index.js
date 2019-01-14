@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { fetchTrades } from "../../state/actions/trades";
+import { fetchByLp } from "../../state/actions/lp";
 import "./table.css";
 import Column from "./column";
 import Row from "./row";
@@ -12,11 +13,15 @@ class TableView extends Component {
     end: 200,
     chunk: 200,
     loading: false,
-    data: []
+    data: [],
+    filterChanged: false
   };
   constructor(props) {
     super(props);
-    this.delayScrollCB = _.debounce(this.loadNextChunk, 500);
+    this.delayScrollCB = _.debounce(
+      this.loadNextChunk,
+      this.props.scrollDebounce
+    );
   }
   componentWillMount() {
     this.loadTrades();
@@ -27,7 +32,7 @@ class TableView extends Component {
   };
   loadNextChunk = e => {
     let scrollPosition = e.target.scrollHeight - e.target.scrollTop;
-    let trigger = e.target.clientHeight * 1.7;
+    let trigger = e.target.clientHeight * 2.2;
     if (scrollPosition > trigger) return;
     this.updatePagination();
     this.loadTrades();
@@ -39,11 +44,30 @@ class TableView extends Component {
     });
   }
   loadTrades() {
-    this.props[this.props.action](this.state.start, this.state.end);
+    this.props[this.props.action](
+      this.state.start,
+      this.state.end,
+      this.props.data,
+      this.props.filter,
+      this.state.filterChanged
+    );
   }
-  static mapStateToProps = state => ({
-    trades: state.trades.items
-  });
+  static mapStateToProps = (state, ownProps) => {
+    const model = { fetchTrades: "trades", fetchByLp: "lp" };
+    return {
+      data: state[model[ownProps.action]].items
+    };
+  };
+  shouldComponentUpdate(newProps) {
+    if (newProps.filter === this.props.filter) return true;
+    this.setState({ filterChanged: true });
+    return true;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.state.filterChanged) return;
+    this.loadTrades();
+    this.setState({ filterChanged: false });
+  }
   render() {
     return (
       <React.Fragment>
@@ -59,7 +83,7 @@ class TableView extends Component {
     );
   }
   createColumns() {
-    if (!this.props.trades) {
+    if (!this.props.data) {
       return "";
     }
     return this.props.columns.map(col => {
@@ -71,11 +95,11 @@ class TableView extends Component {
     });
   }
   createRows() {
-    const { trades, columns } = this.props;
-    if (!trades) {
+    const { data, columns } = this.props;
+    if (!data) {
       return "";
     }
-    return trades.map((row, idx) => (
+    return data.map((row, idx) => (
       <Row
         key={row.UUID}
         data={row}
@@ -88,10 +112,10 @@ class TableView extends Component {
 }
 export default connect(
   TableView.mapStateToProps,
-  { fetchTrades }
+  { fetchTrades, fetchByLp }
 )(TableView);
 
 TableView.propTypes = {
   fetchTrades: PropTypes.func,
-  trades: PropTypes.array
+  data: PropTypes.array
 };

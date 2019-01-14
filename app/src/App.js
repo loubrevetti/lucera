@@ -6,11 +6,12 @@ import LuceraView from "./views/lucera";
 import AppNavigation from "./components/navigation";
 import DashboardView from "./components/dashboard";
 import TableView from "./components/table";
+import LpView from "./components/lp";
 class App extends Component {
   state = {
     appNavigationItems: {
       tableView: { cmp: "Table", label: "view trades in table" },
-      chartView: { cmp: "Chart", label: "view trades in chart" }
+      lpView: { cmp: "Lp", label: "view lps in table" }
     },
     activeView: "Dashboard"
   };
@@ -69,7 +70,25 @@ class App extends Component {
                         { label: "Bids", field: "bid_price", width: "2" },
                         { label: "Quantity", field: "bid_quantity", width: "3" }
                       ]}
-                      action="fetchTrades"
+                      action={"fetchTrades"}
+                      scrollDebounce={50}
+                    />
+                  </LuceraView>
+                  <LuceraView isActive={this.state.activeView === "Lp"}>
+                    <LpView
+                      columns={[
+                        { label: "Symbol", field: "sym", width: "2" },
+                        { label: "Date", field: "formattedDate", width: "3" },
+                        {
+                          label: "Limited Partnership",
+                          field: "lp",
+                          width: "2"
+                        },
+                        { label: "Bids", field: "bid_price", width: "2" },
+                        { label: "Quantity", field: "bid_quantity", width: "3" }
+                      ]}
+                      action={"fetchByLp"}
+                      scrollDebounce={50}
                     />
                   </LuceraView>
                 </div>

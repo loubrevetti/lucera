@@ -1,0 +1,14 @@
+.filterRow {
+  text-align: left;
+  padding: 20px 0px;
+}
+.filterLabel {
+  display: flex;
+  align-items: center;
+}
+.filterBox {
+  min-width: 200px;
+  padding: 1em;
+  border: 0px;
+  border-bottom: 1px solid #208ec2;
+}

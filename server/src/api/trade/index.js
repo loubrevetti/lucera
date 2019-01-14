@@ -8,6 +8,7 @@ class TradeService extends BaseService {
   getAll(req, res) {
     this.setQSParams(req);
     const data = this.getDataChunk(this.data);
+    console.log(data);
     if (!data || data.length === 0) {
       return res.status(404).send("trade data was not found");
     }

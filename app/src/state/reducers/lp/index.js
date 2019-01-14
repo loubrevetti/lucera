@@ -1,12 +1,12 @@
-import { FETCH_TRADES } from "../../actions/types";
+import { FETCH_BY_LP } from "../../actions/types";
 
 const initialState = {
-  trades: []
+  lp: []
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case FETCH_TRADES:
+    case FETCH_BY_LP:
       return {
         ...state,
         items: action.payload

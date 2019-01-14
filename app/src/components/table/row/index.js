@@ -7,7 +7,9 @@ class Row extends Component {
       <div className="col-sm-12">
         <div
           className={
-            "row luceraRow " +
+            "row luceraRow row-" +
+            this.props.rowIdx +
+            " " +
             (parseInt(this.props.rowIdx) % 2 ? "odd-row" : "even-row")
           }
         >
