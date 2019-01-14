@@ -71,7 +71,7 @@ class App extends Component {
                         { label: "Quantity", field: "bid_quantity", width: "3" }
                       ]}
                       action={"fetchTrades"}
-                      scrollDebounce={50}
+                      scrollDebounce={25}
                     />
                   </LuceraView>
                   <LuceraView isActive={this.state.activeView === "Lp"}>
@@ -88,7 +88,7 @@ class App extends Component {
                         { label: "Quantity", field: "bid_quantity", width: "3" }
                       ]}
                       action={"fetchByLp"}
-                      scrollDebounce={50}
+                      scrollDebounce={25}
                     />
                   </LuceraView>
                 </div>
