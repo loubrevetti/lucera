@@ -48,8 +48,12 @@ class BaseService {
     throw new Error("you must implement this method onto the service instance");
   }
   setQSParams(req) {
-    this.chunk.start = parseInt(req.query.start) || parseInt(this.chunk.start);
-    this.chunk.end = parseInt(req.query.end) || parseInt(this.chunk.end);
+    this.chunk.start = req.query.start
+      ? parseInt(req.query.start)
+      : parseInt(this.chunk.start);
+    this.chunk.end = req.query.end
+      ? parseInt(req.query.end)
+      : parseInt(this.chunk.end);
   }
   setRouteParams(req) {
     Object.keys(req.params).forEach(
@@ -66,10 +70,13 @@ class BaseService {
     });
   }
   getDataChunk(d) {
-    return d.slice(this.chunk.start, this.chunk.end).map((row, idx) => {
-      row["UUID"] = "data-itm-" + (this.chunk.start + idx);
-      return row;
-    });
+    let records = d
+      .slice(this.chunk.start, this.chunk.end - 1)
+      .map((row, idx) => {
+        row["UUID"] = "data-itm-" + (this.chunk.start + idx);
+        return row;
+      });
+    return records;
   }
 }
 export default BaseService;
