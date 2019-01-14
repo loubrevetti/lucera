@@ -1,0 +1,26 @@
+.AppNavigation {
+  list-style: none;
+  padding: 8px 0px 0px 0px;
+}
+.NavigationItem {
+  border-radius: 5px;
+  font-size: 0.4em;
+  cursor: pointer;
+  color: transparent;
+  background: #565656;
+  margin: 0px 5px;
+  border-bottom: 2px solid;
+  border-color: #fff;
+  font-weight: bold;
+  text-shadow: 0px 2px 1px rgba(255, 255, 255, 0.5);
+  background-clip: text;
+  text-transform: uppercase;
+  transition: color 0.25s, border-color 0.25s;
+}
+.NavigationItem:hover,
+.itm-active {
+  color: #208ec2;
+  border-bottom: 2px solid;
+  border-color: #208ec2;
+  transition: color 0.25s, border-color 0.25s;
+}
