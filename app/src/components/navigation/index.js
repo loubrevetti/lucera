@@ -12,25 +12,25 @@ class AppNavigation extends React.Component {
     );
   }
   renderMenu() {
-    return Object.keys(this.props.menuItems).map((menuItem, idx) => {
+    const { menuItems, resetMenu, onLoadView } = this.props;
+    return Object.keys(menuItems).map((menuItem, idx) => {
       return (
         <li className="NavigationItem nav-item" key={"menu-itm-" + idx}>
           <span
             className={
               "nav-link " +
-              (this.state.activeItem === this.props.menuItems[menuItem].label &&
-              !this.props.resetMenu
+              (this.state.activeItem === menuItems[menuItem].label && !resetMenu
                 ? "itm-active"
                 : "")
             }
             onClick={() => {
               this.setNavState({
-                activeItem: this.props.menuItems[menuItem].label
+                activeItem: menuItems[menuItem].label
               });
-              return this.props.onLoadView(this.props.menuItems[menuItem]);
+              return onLoadView(menuItems[menuItem]);
             }}
           >
-            {this.props.menuItems[menuItem].label}
+            {menuItems[menuItem].label}
           </span>
         </li>
       );
