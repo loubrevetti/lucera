@@ -1,0 +1,8 @@
+.cell {
+  padding: 0.3em 0.4em;
+  border-left: 1px #aaa solid;
+  border-bottom: 1px solid #aaa;
+}
+.cell:last-child {
+  border-right: 1px #aaa solid;
+}

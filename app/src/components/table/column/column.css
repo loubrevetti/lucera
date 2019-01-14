@@ -1,0 +1,16 @@
+.column {
+  color: #fff;
+  font-size: 0.8em;
+  padding: 0.3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid #fff;
+  margin-left: -2px;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+.column:last-child {
+  border-right: 0px;
+}

@@ -1,0 +1,6 @@
+.row.luceraRow {
+  font-size: 0.7em;
+}
+.luceraRow.odd-row {
+  background: #ccc;
+}
