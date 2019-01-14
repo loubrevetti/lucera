@@ -9,18 +9,20 @@ class TradeService extends BaseService {
     this.setQSParams(req);
     const data = this.getDataChunk(this.data);
     if (!data || data.length === 0) {
-      res.status(404).send("trade data was not found");
+      return res.status(404).send("trade data was not found");
     }
-    res.status(200).send(this.formatData(data));
+    return res.status(200).send(this.formatData(data));
   }
   getByLp(req, res) {
     this.setRouteParams(req);
     this.setQSParams(req);
     const data = this.getDataChunk(this.filterData());
     if (!data || data.length === 0) {
-      res.status(404).send("the LP data you were looking for was not found");
+      return res
+        .status(404)
+        .send("the LP data you were looking for was not found");
     }
-    res.status(200).send(this.formatData(data));
+    return res.status(200).send(this.formatData(data));
   }
   formatData(data) {
     return data.map(row => {

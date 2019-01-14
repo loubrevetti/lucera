@@ -6,6 +6,7 @@ const initialState = {
 };
 
 export default function(state = initialState, action) {
+  console.log(state);
   switch (action.type) {
     case FETCH_TRADES:
       return {

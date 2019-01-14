@@ -5,14 +5,38 @@ import { fetchTrades } from "../../state/actions/trades";
 import "./table.css";
 import Column from "./column";
 import Row from "./row";
-
+import _ from "lodash";
 class TableView extends Component {
   state = {
     start: 0,
-    end: 200
+    end: 200,
+    chunk: 200,
+    loading: false,
+    data: []
   };
+  constructor(props) {
+    super(props);
+    this.delayScrollCB = _.debounce(this.loadNextChunk, 500);
+  }
   componentWillMount() {
     this.loadTrades();
+  }
+  onTableScroll = e => {
+    e.persist();
+    this.delayScrollCB(e);
+  };
+  loadNextChunk = e => {
+    let scrollPosition = e.target.scrollHeight - e.target.scrollTop;
+    let trigger = e.target.clientHeight * 1.7;
+    if (scrollPosition > trigger) return;
+    this.updatePagination();
+    this.loadTrades();
+  };
+  updatePagination() {
+    this.setState({
+      start: this.state.start + this.state.chunk,
+      end: this.state.end + this.state.chunk
+    });
   }
   loadTrades() {
     this.props[this.props.action](this.state.start, this.state.end);
@@ -25,9 +49,9 @@ class TableView extends Component {
       <React.Fragment>
         <div className="table">
           <div className="row tableHeader">{this.createColumns()}</div>
-          <div className="row tableBody">
-            <div class="bodyWindow col-sm-12">
-              <div class="row">{this.createRows()}</div>
+          <div className="row tableBody" onScroll={this.onTableScroll}>
+            <div className="bodyWindow col-sm-12">
+              <div className="row">{this.createRows()}</div>
             </div>
           </div>
         </div>
